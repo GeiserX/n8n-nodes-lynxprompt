@@ -12,6 +12,9 @@ interface BlueprintItem {
 	[key: string]: unknown;
 }
 
+const PAGE_SIZE = 50;
+const MAX_PAGES = 4;
+
 export class LynxPromptTrigger implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'LynxPrompt Trigger',
@@ -57,21 +60,28 @@ export class LynxPromptTrigger implements INodeType {
 		const credentials = await this.getCredentials('lynxPromptApi');
 		const baseUrl = credentials.url as string;
 
-		const response = await this.helpers.httpRequestWithAuthentication.call(
-			this,
-			'lynxPromptApi',
-			{
-				method: 'GET',
-				url: `${baseUrl}/api/v1/blueprints`,
-				qs: { limit: 10 },
-				json: true,
-			},
-		);
+		// Paginate to fetch all blueprints (up to PAGE_SIZE * MAX_PAGES)
+		const allBlueprints: BlueprintItem[] = [];
+		for (let page = 0; page < MAX_PAGES; page++) {
+			const response = await this.helpers.httpRequestWithAuthentication.call(
+				this,
+				'lynxPromptApi',
+				{
+					method: 'GET',
+					url: `${baseUrl}/api/v1/blueprints`,
+					qs: { limit: PAGE_SIZE, offset: page * PAGE_SIZE },
+					json: true,
+				},
+			);
 
-		const blueprints: BlueprintItem[] =
-			((response as IDataObject).blueprints as BlueprintItem[]) ?? [];
+			const items: BlueprintItem[] =
+				((response as IDataObject).blueprints as BlueprintItem[]) ?? [];
+			allBlueprints.push(...items);
 
-		if (blueprints.length === 0) {
+			if (items.length < PAGE_SIZE) break;
+		}
+
+		if (allBlueprints.length === 0) {
 			return null;
 		}
 
@@ -82,13 +92,11 @@ export class LynxPromptTrigger implements INodeType {
 			] ?? []) as string[];
 
 			const newBlueprints = lastKnownIds.length
-				? blueprints.filter((bp) => !lastKnownIds.includes(bp.id))
+				? allBlueprints.filter((bp) => !lastKnownIds.includes(bp.id))
 				: [];
 
-			// Store current IDs for next poll
-			(this.getWorkflowStaticData('node') as IDataObject)[stateKey] = blueprints.map(
-				(bp) => bp.id,
-			);
+			(this.getWorkflowStaticData('node') as IDataObject)[stateKey] =
+				allBlueprints.map((bp) => bp.id);
 
 			if (newBlueprints.length === 0) {
 				return null;
@@ -104,15 +112,14 @@ export class LynxPromptTrigger implements INodeType {
 		] ?? {}) as Record<string, string>;
 
 		const updatedBlueprints = Object.keys(lastUpdatedMap).length
-			? blueprints.filter((bp) => {
+			? allBlueprints.filter((bp) => {
 					const prevUpdated = lastUpdatedMap[bp.id];
 					return prevUpdated !== undefined && bp.updated_at !== prevUpdated;
 				})
 			: [];
 
-		// Store current timestamps for next poll
 		const newMap: Record<string, string> = {};
-		for (const bp of blueprints) {
+		for (const bp of allBlueprints) {
 			newMap[bp.id] = bp.updated_at ?? '';
 		}
 		(this.getWorkflowStaticData('node') as IDataObject)[stateKey] = newMap;
