@@ -23,6 +23,7 @@
 	"main": "dist/nodes/LynxPrompt/LynxPrompt.node.js",
 	"scripts": {
 		"build": "tsc && node build-icons.cjs",
+		"test": "vitest run",
 		"prepublishOnly": "npm run build"
 	},
 	"files": [
@@ -40,6 +41,7 @@
 	},
 	"devDependencies": {
 		"n8n-workflow": "^1.72.0",
-		"typescript": "^6.0.2"
+		"typescript": "^6.0.2",
+		"vitest": "^4.1.2"
 	}
 }
