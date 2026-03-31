@@ -1,0 +1,45 @@
+{
+	"name": "n8n-nodes-lynxprompt",
+	"version": "0.1.0",
+	"description": "n8n community node for LynxPrompt — manage AI configuration blueprints (AGENTS.md, CLAUDE.md) via API",
+	"keywords": [
+		"n8n-community-node-package",
+		"lynxprompt",
+		"ai-rules",
+		"agents-md",
+		"claude-md",
+		"cursor-rules",
+		"self-hosted",
+		"blueprints"
+	],
+	"license": "MIT",
+	"author": {
+		"name": "GeiserX"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/GeiserX/n8n-nodes-lynxprompt.git"
+	},
+	"main": "dist/nodes/LynxPrompt/LynxPrompt.node.js",
+	"scripts": {
+		"build": "tsc && node build-icons.cjs",
+		"prepublishOnly": "npm run build"
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"credentials": [
+			"dist/credentials/LynxPromptApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/LynxPrompt/LynxPrompt.node.js",
+			"dist/nodes/LynxPrompt/LynxPromptTrigger.node.js"
+		]
+	},
+	"devDependencies": {
+		"n8n-workflow": "^1.72.0",
+		"typescript": "^5.7.0"
+	}
+}
