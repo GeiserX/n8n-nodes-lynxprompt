@@ -68,9 +68,8 @@ export class LynxPromptTrigger implements INodeType {
 			},
 		);
 
-		const blueprints: BlueprintItem[] = Array.isArray(response)
-			? response
-			: ((response as IDataObject).data as BlueprintItem[]) ?? [];
+		const blueprints: BlueprintItem[] =
+			((response as IDataObject).blueprints as BlueprintItem[]) ?? [];
 
 		if (blueprints.length === 0) {
 			return null;
