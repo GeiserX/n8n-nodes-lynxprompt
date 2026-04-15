@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/images/banner.svg" alt="n8n-nodes-lynxprompt banner" width="900"/>
+</p>
+
 # n8n-nodes-lynxprompt
 
 [n8n](https://n8n.io/) community node for [LynxPrompt](https://lynxprompt.com) — manage AI configuration blueprints (AGENTS.md, CLAUDE.md, .cursorrules) via the LynxPrompt API.
