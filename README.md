@@ -2,6 +2,10 @@
   <img src="docs/images/banner.svg" alt="n8n-nodes-lynxprompt banner" width="900"/>
 </p>
 
+<p align="center">
+  <a href="https://codecov.io/gh/GeiserX/n8n-nodes-lynxprompt"><img src="https://codecov.io/gh/GeiserX/n8n-nodes-lynxprompt/graph/badge.svg" alt="codecov"></a>
+</p>
+
 # n8n-nodes-lynxprompt
 
 [n8n](https://n8n.io/) community node for [LynxPrompt](https://lynxprompt.com) — manage AI configuration blueprints (AGENTS.md, CLAUDE.md, .cursorrules) via the LynxPrompt API.
