@@ -1,8 +1,8 @@
-# AGENTS.md — n8n-nodes-lynxprompt
+# CLAUDE.md — n8n-nodes-lynxprompt
 
 ## Project Overview
 
-n8n community node for LynxPrompt — manage AI configuration blueprints (AGENTS.md, CLAUDE.md) via API.
+n8n community node for LynxPrompt — manage AI configuration blueprints (CLAUDE.md, CLAUDE.md) via API.
 
 - **Repo:** [GeiserX/n8n-nodes-lynxprompt](https://github.com/GeiserX/n8n-nodes-lynxprompt)
 - **Language:** TypeScript
