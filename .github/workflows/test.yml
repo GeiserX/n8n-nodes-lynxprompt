@@ -8,13 +8,13 @@ jobs:
   test:
     runs-on: [self-hosted, Linux, X64]
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with: { node-version: 22 }
       - run: npm ci
       - run: npm run build
       - run: npx vitest run --coverage
-      - uses: codecov/codecov-action@v6
+      - uses: codecov/codecov-action@v5
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
           files: coverage/lcov.info
